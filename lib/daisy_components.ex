@@ -243,11 +243,7 @@ defmodule DaisyComponents do
       assigns =
         assigns
         |> assign(:baseclass, baseclass)
-        |> update(:rest, fn rest, assigns ->
-          assigns
-          |> Map.take([:tag, :baseclass, :class, :overrideclass])
-          |> Map.merge(rest)
-        end)
+        |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
       ~H"""
       <.basic_tag
@@ -314,11 +310,7 @@ defmodule DaisyComponents do
         fetch_value!(@card_sizes, assigns[:size]),
         fetch_value!(@card_styles, assigns[:style])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -389,9 +381,7 @@ defmodule DaisyComponents do
       fetch_value!(@checkbox_styles, assigns[:style])
     ])
     |> assign(:tag, "input")
-    |> update(:rest, fn rest, assigns ->
-      Map.take(assigns, [:type]) |> Map.merge(rest)
-    end)
+    |> merge_assigns(:rest, [:type])
     |> basic_tag()
   end
 
@@ -447,11 +437,7 @@ defmodule DaisyComponents do
         assigns[:open] && "collapse-open",
         fetch_value!(@collapse_icons, assigns[:icon])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -483,10 +469,7 @@ defmodule DaisyComponents do
   attr(:rest, :global)
 
   def countdown(assigns) do
-    assigns =
-      update(assigns, :rest, fn rest, assigns ->
-        Map.take(assigns, [:tag, :class, :overrideclass]) |> Map.merge(rest)
-      end)
+    assigns = merge_assigns(assigns, :rest, [:tag, :class, :overrideclass])
 
     ~H"""
     <.basic_tag baseclass="countdown" {@rest}>
@@ -602,11 +585,7 @@ defmodule DaisyComponents do
         "dock",
         fetch_value!(@dock_sizes, assigns[:size])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -712,9 +691,7 @@ defmodule DaisyComponents do
       assigns =
         assigns
         |> assign(:baseclass, baseclass)
-        |> update(:rest, fn rest, assigns ->
-          Map.take(assigns, [:tag, :class, :baseclass, :overrideclass]) |> Map.merge(rest)
-        end)
+        |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
       ~H"""
       <.basic_tag {@rest}>
@@ -756,10 +733,7 @@ defmodule DaisyComponents do
   end
 
   def fieldset(assigns) do
-    assigns =
-      update(assigns, :rest, fn rest, assigns ->
-        Map.take(assigns, [:tag, :class, :overrideclass]) |> Map.merge(rest)
-      end)
+    assigns = merge_assigns(assigns, :rest, [:tag, :class, :overrideclass])
 
     ~H"""
     <.basic_tag baseclass="fieldset" {@rest}>
@@ -792,10 +766,7 @@ defmodule DaisyComponents do
   slot(:inner_block, required: true)
 
   def hover_3d(assigns) do
-    assigns =
-      update(assigns, :rest, fn rest, assigns ->
-        Map.take(assigns, [:tag, :class, :overrideclass]) |> Map.merge(rest)
-      end)
+    assigns = merge_assigns(assigns, :rest, [:tag, :class, :overrideclass])
 
     ~H"""
     <.basic_tag baseclass="hover-3d" {@rest}>
@@ -973,9 +944,7 @@ defmodule DaisyComponents do
         fetch_value!(@menu_sizes, assigns[:size]),
         fetch_value!(@menu_directions, assigns[:direction])
       ])
-      |> update(:rest, fn rest, assigns ->
-        Map.take(assigns, [:tag, :baseclass, :class, :overrideclass]) |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -1000,9 +969,7 @@ defmodule DaisyComponents do
         assigns[:disabled] && "menu-disabled",
         assigns[:title] && "menu-title"
       ])
-      |> update(:rest, fn rest, assigns ->
-        Map.take(assigns, [:baseclass, :class, :overrideclass]) |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag tag="li" {@rest}>{@title || render_slot(@inner_block)}</.basic_tag>
@@ -1044,9 +1011,7 @@ defmodule DaisyComponents do
       fetch_value!(@progress_colors, assigns[:color])
     ])
     |> assign(:tag, "progress")
-    |> update(:rest, fn rest, assigns ->
-      Map.take(assigns, [:value, :max]) |> Map.merge(rest)
-    end)
+    |> merge_assigns(:rest, [:value, :max])
     |> basic_tag()
   end
 
@@ -1113,9 +1078,7 @@ defmodule DaisyComponents do
       fetch_value!(@radio_styles, assigns[:style])
     ])
     |> assign(:tag, "input")
-    |> update(:rest, fn rest, assigns ->
-      Map.take(assigns, [:type]) |> Map.merge(rest)
-    end)
+    |> merge_assigns(:rest, [:type])
     |> basic_tag()
   end
 
@@ -1172,9 +1135,7 @@ defmodule DaisyComponents do
       fetch_value!(@range_sizes, assigns[:size])
     ])
     |> assign(:tag, "input")
-    |> update(:rest, fn rest, assigns ->
-      Map.take(assigns, [:type]) |> Map.merge(rest)
-    end)
+    |> merge_assigns(:rest, [:type])
     |> basic_tag()
   end
 
@@ -1244,11 +1205,7 @@ defmodule DaisyComponents do
         fetch_value!(@select_sizes, assigns[:size]),
         fetch_value!(@select_styles, assigns[:style])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag tag="select" {@rest}>
@@ -1304,11 +1261,7 @@ defmodule DaisyComponents do
         "stats",
         fetch_value!(@stats_directions, assigns[:direction])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -1352,11 +1305,7 @@ defmodule DaisyComponents do
     assigns =
       assigns
       |> assign(:baseclass, "stat")
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -1412,11 +1361,7 @@ defmodule DaisyComponents do
         assigns[:active] && "swap-active",
         fetch_value!(@swap_styles, assigns[:style])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
@@ -1503,11 +1448,7 @@ defmodule DaisyComponents do
         fetch_value!(@tab_placements, assigns[:placement]),
         fetch_value!(@tab_styles, assigns[:style])
       ])
-      |> update(:rest, fn rest, assigns ->
-        assigns
-        |> Map.take([:tag, :baseclass, :class, :overrideclass])
-        |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag role="tablist" {@rest}>
@@ -1592,12 +1533,10 @@ defmodule DaisyComponents do
         fetch_value!(@textarea_sizes, assigns[:size]),
         fetch_value!(@textarea_styles, assigns[:style])
       ])
-      |> update(:rest, fn rest, assigns ->
-        Map.take(assigns, [:class, :overrideclass]) |> Map.merge(rest)
-      end)
+      |> merge_assigns(:rest, [:baseclass, :class, :overrideclass])
 
     ~H"""
-    <.basic_tag tag="textarea" baseclass={@baseclass} {@rest}>{@value || render_slot(@inner_block)}</.basic_tag>
+    <.basic_tag tag="textarea" {@rest}>{@value || render_slot(@inner_block)}</.basic_tag>
     """
   end
 
@@ -1797,4 +1736,10 @@ defmodule DaisyComponents do
 
   defp fetch_value!(_map, nil), do: nil
   defp fetch_value!(map, key) when is_map(map), do: Map.fetch!(map, key)
+
+  defp merge_assigns(assigns, attr, keys) do
+    update(assigns, attr, fn rest, assigns ->
+      Map.take(assigns, keys) |> Map.merge(rest)
+    end)
+  end
 end
