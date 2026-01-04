@@ -179,6 +179,60 @@ defmodule DaisyComponentsTest do
     end
   end
 
+  describe "avatar_group" do
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.avatar_group>
+                 User Content
+               </.avatar_group>
+               """)
+
+      assert result =~ ~s(<div class="avatar-group">)
+      assert result =~ ~s(User Content)
+
+      assert result =
+               rendered_to_string(~H"""
+               <.avatar_group tag="section">
+                 User Content
+               </.avatar_group>
+               """)
+
+      assert result =~ ~s(<section class="avatar-group">)
+      assert result =~ ~s(User Content)
+    end
+
+    test "class" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.avatar_group class="custom-class">
+                 User Content
+               </.avatar_group>
+               """)
+
+      assert result =~ ~s(<div class="avatar-group custom-class">)
+      assert result =~ ~s(User Content)
+    end
+
+    test "overrideclass" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.avatar_group overrideclass="override-class">
+                 User Content
+               </.avatar_group>
+               """)
+
+      assert result =~ ~s(<div class="override-class">)
+      assert result =~ ~s(User Content)
+    end
+  end
+
   describe "badge" do
     test "color" do
       for color <- ~w(primary secondary accent neutral info success warning error) do

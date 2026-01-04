@@ -103,6 +103,39 @@ defmodule DaisyComponents do
   end
 
   @doc """
+  Container for grouping multiple avatars
+  https://daisyui.com/components/avatar/#avatar-group
+
+  ## Examples
+
+      <.avatar_group>
+        <.avatar>
+          <img src="user1.png" alt="User 1" />
+        </.avatar>
+        <.avatar>
+          <img src="user2.png" alt="User 2" />
+        </.avatar>
+        <.avatar>
+          <img src="user3.png" alt="User 3" />
+        </.avatar>
+      </.avatar_group>
+
+  """
+  attr(:tag, :string, default: "div")
+  attr(:class, :any, default: nil)
+  attr(:overrideclass, :any)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def avatar_group(assigns) do
+    assigns = merge_assigns(assigns, :rest, [:tag, :class, :overrideclass])
+
+    ~H"""
+    <.basic_tag baseclass="avatar-group" {@rest}>{render_slot(@inner_block)}</.basic_tag>
+    """
+  end
+
+  @doc """
   Renders a badge.
   https://daisyui.com/components/badge/
 
