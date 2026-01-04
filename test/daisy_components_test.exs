@@ -450,6 +450,22 @@ defmodule DaisyComponentsTest do
       end
     end
 
+    test "mod" do
+      for {mod, class} <- %{"image-full" => "image-full", "side" => "card-side"} do
+        assigns = %{mod: mod}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.card mod={@mod}>
+                   <p>Card Content</p>
+                 </.card>
+                 """)
+
+        assert result =~ ~s(<div class="card #{class}">)
+        assert result =~ "<p>Card Content</p>"
+      end
+    end
+
     test "tag" do
       assigns = %{}
 
@@ -542,7 +558,7 @@ defmodule DaisyComponentsTest do
       assert result =~ "<p>Card Content</p>"
     end
 
-    test "actions" do
+    test "actions slot" do
       assigns = %{}
 
       assert result =
@@ -578,8 +594,25 @@ defmodule DaisyComponentsTest do
                """)
 
       assert result =~ ~s(<div class="card-actions custom-class">)
-      assert result =~ "Card Action"
+      assert result =~ "<button>Card Action</button>"
       assert result =~ "<p>Card Content</p>"
+    end
+
+    test "image slot" do
+      for placement <- ~w(top bottom) do
+        assigns = %{placement: placement}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.card>
+                   <:image placement={@placement} class="custom-class"><img src="image.jpg"/></:image>
+                   <p>Card Content</p>
+                 </.card>
+                 """)
+
+        assert result =~ ~s(<figure class="custom-class"><img src="image.jpg"></figure>)
+        assert result =~ "<p>Card Content</p>"
+      end
     end
   end
 

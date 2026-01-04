@@ -280,12 +280,17 @@ defmodule DaisyComponents do
     "dash" => "card-dash",
     "border" => "card-border"
   }
+  @card_mods %{
+    "image-full" => "image-full",
+    "side" => "card-side"
+  }
   attr(:size, :string,
     values: Map.keys(@card_sizes),
     doc: "the size of the card"
   )
 
   attr(:style, :string, values: Map.keys(@card_styles), doc: "the style of the card")
+  attr(:mod, :string, values: Map.keys(@card_mods), doc: "the modifier of the card")
 
   attr(:tag, :string, default: "div")
   attr(:class, :any, default: nil)
@@ -303,17 +308,30 @@ defmodule DaisyComponents do
     attr(:class, :any)
   end
 
+  slot :image do
+    attr(:tag, :string)
+    attr(:class, :any)
+    attr(:placement, :string)
+  end
+
   def card(assigns) do
     assigns =
       assign(assigns, :baseclass, [
         "card",
         fetch_value!(@card_sizes, assigns[:size]),
-        fetch_value!(@card_styles, assigns[:style])
+        fetch_value!(@card_styles, assigns[:style]),
+        fetch_value!(@card_mods, assigns[:mod])
       ])
       |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
     <.basic_tag {@rest}>
+      <.basic_tag
+        :for={image <- @image}
+        :if={image[:placement] != "bottom"}
+        tag={image[:tag] || "figure"}
+        {assigns_to_attributes(image, [:placement, :tag])}
+      >{render_slot(image)}</.basic_tag>
       <div class="card-body">
         <.basic_tag
           :for={title <- @title} baseclass="card-title" tag={title[:tag] || "h2"} {assigns_to_attributes(title, [:tag])}
@@ -323,6 +341,12 @@ defmodule DaisyComponents do
           :for={action <- @actions} baseclass="card-actions" {assigns_to_attributes(action)}
         >{render_slot(action)}</.basic_tag>
       </div>
+      <.basic_tag
+        :for={image <- @image}
+        :if={image[:placement] == "bottom"}
+        tag={image[:tag] || "figure"}
+        {assigns_to_attributes(image, [:placement, :tag])}
+      >{render_slot(image)}</.basic_tag>
     </.basic_tag>
     """
   end
