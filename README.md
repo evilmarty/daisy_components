@@ -1,6 +1,6 @@
 # Daisy Components
 
-Daisy UI components built with Phoenix LiveView.
+[Daisy UI](https://daisyui.com) components built with Phoenix LiveView.
 
 ## Installation
 
@@ -63,3 +63,8 @@ end
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/daisy_components>.
+
+## TODO
+
+[ ] Add all components from Daisy UI.
+[ ] Setup Storybook for LiveView.
