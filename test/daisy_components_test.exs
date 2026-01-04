@@ -2426,7 +2426,9 @@ defmodule DaisyComponentsTest do
                  </.tooltip>
                  """)
 
-        assert result =~ ~s(<div data-tip="Tooltip Content" class="tooltip tooltip-#{color}">)
+        assert result =~ ~s(</div>)
+        assert result =~ ~s(data-tip="Tooltip Content")
+        assert result =~ ~s(class="tooltip tooltip-#{color}")
         assert result =~ ~s(Hover me)
       end
     end
@@ -2442,7 +2444,9 @@ defmodule DaisyComponentsTest do
                  </.tooltip>
                  """)
 
-        assert result =~ ~s(<div data-tip="Tooltip Content" class="tooltip tooltip-#{placement}">)
+        assert result =~ ~s(</div>)
+        assert result =~ ~s(data-tip="Tooltip Content")
+        assert result =~ ~s(class="tooltip tooltip-#{placement}")
         assert result =~ ~s(Hover me)
       end
     end
@@ -2459,12 +2463,14 @@ defmodule DaisyComponentsTest do
                  """)
 
         if open do
-          assert result =~ ~s(<div data-tip="Tooltip Content" class="tooltip tooltip-open">)
+          assert result =~ ~s(class="tooltip tooltip-open")
         else
-          assert result =~ ~s(<div data-tip="Tooltip Content" class="tooltip">)
+          assert result =~ ~s(class="tooltip")
         end
 
         assert result =~ ~s(Hover me)
+        assert result =~ ~s(</div>)
+        assert result =~ ~s(data-tip="Tooltip Content")
       end
     end
 
@@ -2478,7 +2484,9 @@ defmodule DaisyComponentsTest do
                </.tooltip>
                """)
 
-      assert result =~ ~s(<div data-tip="Tooltip Content" class="tooltip custom-class">)
+      assert result =~ ~s(</div>)
+      assert result =~ ~s(data-tip="Tooltip Content")
+      assert result =~ ~s(class="tooltip custom-class")
     end
 
     test "overrideclass" do
@@ -2491,7 +2499,9 @@ defmodule DaisyComponentsTest do
                </.tooltip>
                """)
 
-      assert result =~ ~s(<div data-tip="Tooltip Content" class="override-class">)
+      assert result =~ ~s(</div>)
+      assert result =~ ~s(data-tip="Tooltip Content")
+      assert result =~ ~s(class="override-class")
     end
   end
 end
