@@ -1855,6 +1855,170 @@ defmodule DaisyComponentsTest do
     end
   end
 
+  describe "modal" do
+    test "vertical" do
+      for vertical <- ~w(top middle bottom) do
+        assigns = %{vertical: vertical}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.modal vertical={@vertical}>
+                   <p>Modal Content</p>
+                 </.modal>
+                 """)
+
+        assert result =~ ~s(<div role="dialog" class="modal modal-#{vertical}">)
+        assert result =~ "<p>Modal Content</p>"
+      end
+    end
+
+    test "horizontal" do
+      for horizontal <- ~w(start end) do
+        assigns = %{horizontal: horizontal}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.modal horizontal={@horizontal}>
+                   <p>Modal Content</p>
+                 </.modal>
+                 """)
+
+        assert result =~ ~s(<div role="dialog" class="modal modal-#{horizontal}">)
+        assert result =~ "<p>Modal Content</p>"
+      end
+    end
+
+    test "open (non-dialog)" do
+      for open <- [true, false] do
+        assigns = %{open: open}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.modal open={@open}>
+                   <p>Modal Content</p>
+                 </.modal>
+                 """)
+
+        if open do
+          assert result =~ ~s(<div role="dialog" class="modal modal-open">)
+        else
+          assert result =~ ~s(<div role="dialog" class="modal">)
+        end
+
+        assert result =~ "<p>Modal Content</p>"
+      end
+    end
+
+    test "open (dialog)" do
+      for open <- [true, false] do
+        assigns = %{open: open}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.modal tag="dialog" open={@open}>
+                   <p>Modal Content</p>
+                 </.modal>
+                 """)
+
+        if open do
+          assert result =~ ~s(<dialog open class="modal">)
+        else
+          assert result =~ ~s(<dialog class="modal">)
+        end
+
+        assert result =~ "<p>Modal Content</p>"
+      end
+    end
+
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal>
+                 <p>Modal Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<div role="dialog" class="modal">)
+      assert result =~ "<p>Modal Content</p>"
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal tag="dialog">
+                 <p>Modal Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<dialog class="modal">)
+      assert result =~ "<p>Modal Content</p>"
+    end
+
+    test "class" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal class="custom-class">
+                 <p>Modal Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<div role="dialog" class="modal custom-class">)
+      assert result =~ "<p>Modal Content</p>"
+    end
+
+    test "overrideclass" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal overrideclass="override-class">
+                 <p>Modal Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<div role="dialog" class="override-class">)
+      assert result =~ "<p>Modal Content</p>"
+    end
+
+    test "action slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal>
+                 <p>Modal Content</p>
+                 <:action tag="section" class="custom-class">
+                   <button>Close</button>
+                 </:action>
+               </.modal>
+               """)
+
+      assert result =~ "<p>Modal Content</p>"
+      assert result =~ ~s(<section class="modal-action custom-class">)
+      assert result =~ "<button>Close</button>"
+    end
+
+    test "backdrop slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal>
+                 <p>Modal Content</p>
+                 <:backdrop tag="section" class="custom-class">
+                   Backdrop Content
+                 </:backdrop>
+               </.modal>
+               """)
+
+      assert result =~ "<p>Modal Content</p>"
+      assert result =~ ~s(<section class="modal-backdrop custom-class">)
+      refute result =~ "Backdrop Content"
+    end
+  end
+
   describe "progress" do
     test "color" do
       for color <- ~w(primary secondary accent neutral info success warning error) do

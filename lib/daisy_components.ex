@@ -1129,6 +1129,89 @@ defmodule DaisyComponents do
   end
 
   @doc """
+  Modal is used to show a dialog or a box when you click a button.
+  https://daisyui.com/components/modal/
+
+  ## Examples
+
+      <.modal vertical="middle" horizontal="end" open={true}>
+        <h3 class="font-bold text-lg">Congratulations!</h3>
+        <p class="py-4">You've been selected for a chance to get one year of subscription to our service for free!</p>
+        <:action>
+          <.button>Yay!</.button>
+        </:action>
+      </.modal>
+
+  """
+  @modal_verticals %{
+    "bottom" => "modal-bottom",
+    "middle" => "modal-middle",
+    "top" => "modal-top"
+  }
+  @modal_horizontals %{
+    "start" => "modal-start",
+    "end" => "modal-end"
+  }
+  attr(:vertical, :string,
+    values: Map.keys(@modal_verticals),
+    doc: "the vertical alignment of the modal"
+  )
+
+  attr(:horizontal, :string,
+    values: Map.keys(@modal_horizontals),
+    doc: "the horizontal alignment of the modal"
+  )
+
+  attr(:open, :boolean, default: false, doc: "whether the modal is open")
+  attr(:tag, :string, default: "div")
+  attr(:class, :any, default: nil)
+  attr(:overrideclass, :any)
+  attr(:rest, :global)
+
+  slot(:inner_block, required: true)
+
+  slot :action do
+    attr(:tag, :any)
+    attr(:class, :any)
+  end
+
+  slot :backdrop do
+    attr(:tag, :any)
+    attr(:class, :any)
+  end
+
+  def modal(assigns) do
+    assigns =
+      assigns
+      |> assign(:baseclass, [
+        "modal",
+        fetch_value!(@modal_verticals, assigns[:vertical]),
+        fetch_value!(@modal_horizontals, assigns[:horizontal]),
+        assigns[:open] && assigns[:tag] != "dialog" && "modal-open"
+      ])
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
+
+    assigns =
+      if assigns[:tag] == "dialog" do
+        merge_assigns(assigns, :rest, [:open])
+      else
+        update(assigns, :rest, &Map.put(&1, :role, "dialog"))
+      end
+
+    ~H"""
+    <.basic_tag {@rest}>
+      <div class="modal-box">
+        {render_slot(@inner_block)}
+        <.basic_tag
+          :for={action <- @action} baseclass="modal-action" {assigns_to_attributes(action)}
+        >{render_slot(action)}</.basic_tag>
+      </div>
+      <.basic_tag :for={backdrop <- @backdrop} baseclass="modal-backdrop" {assigns_to_attributes(backdrop)} />
+    </.basic_tag>
+    """
+  end
+
+  @doc """
   Renders a progress bar component.
   https://daisyui.com/components/progress/
 
