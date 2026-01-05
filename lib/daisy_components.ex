@@ -995,6 +995,31 @@ defmodule DaisyComponents do
   end
 
   @doc """
+  Renders a label component.
+  https://daisyui.com/components/label/
+
+  ## Examples
+
+      <.label for="username">Username</.label>
+      <.label floating={true}>Email</.label>
+
+  """
+  attr(:floating, :boolean, default: false, doc: "whether to use floating label style")
+  attr(:tag, :string, default: "label")
+  attr(:class, :any, default: nil)
+  attr(:overrideclass, :any)
+  attr(:rest, :global)
+  slot(:inner_block, required: true)
+
+  def label(assigns) do
+    baseclass = if assigns[:floating], do: "floating-label", else: "label"
+
+    assigns
+    |> assign(:baseclass, baseclass)
+    |> basic_tag()
+  end
+
+  @doc """
   Renders a loading indicator.
   https://daisyui.com/components/loading/
 

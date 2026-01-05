@@ -1683,6 +1683,71 @@ defmodule DaisyComponentsTest do
     end
   end
 
+  describe "label" do
+    test "floating" do
+      for floating <- [true, false] do
+        assigns = %{floating: floating}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.label floating={@floating}>Label Text</.label>
+                 """)
+
+        if floating do
+          assert result =~ ~s(<label class="floating-label">)
+        else
+          assert result =~ ~s(<label class="label">)
+        end
+
+        assert result =~ "Label Text"
+      end
+    end
+
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.label>Label Text</.label>
+               """)
+
+      assert result =~ ~s(<label class="label">)
+      assert result =~ "Label Text"
+
+      assert result =
+               rendered_to_string(~H"""
+               <.label tag="span">Label Text</.label>
+               """)
+
+      assert result =~ ~s(<span class="label">)
+      assert result =~ "Label Text"
+    end
+
+    test "class" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.label class="custom-class">Label Text</.label>
+               """)
+
+      assert result =~ ~s(<label class="label custom-class">)
+      assert result =~ "Label Text"
+    end
+
+    test "overrideclass" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.label overrideclass="override-class">Label Text</.label>
+               """)
+
+      assert result =~ ~s(<label class="override-class">)
+      assert result =~ "Label Text"
+    end
+  end
+
   describe "loading" do
     test "style" do
       for style <- ~w(spinner dots ring ball bars) do
