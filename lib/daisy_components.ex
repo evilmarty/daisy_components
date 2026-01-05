@@ -920,7 +920,7 @@ defmodule DaisyComponents do
     ~H"""
     <.basic_tag baseclass="hero" {@rest}>
       <.basic_tag :for={overlay <- @overlay} baseclass="hero-overlay" {assigns_to_attributes(overlay)} />
-      <div :if={@inner_block != []} class="hero-content">{render_slot(@inner_block)}</div>
+      <div :if={@content == []} class="hero-content">{render_slot(@inner_block)}</div>
       <.basic_tag
         :for={content <- @content} baseclass="hero-content" {assigns_to_attributes(content)}
       >{render_slot(content)}</.basic_tag>
