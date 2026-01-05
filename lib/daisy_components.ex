@@ -979,7 +979,7 @@ defmodule DaisyComponents do
   attr(:rest, :global,
     include:
       ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
-                minlength multiple pattern placeholder readonly required rows size step type value)
+                minlength multiple name pattern placeholder readonly required rows size step type value)
   )
 
   def input(assigns) do
