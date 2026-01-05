@@ -676,6 +676,68 @@ defmodule DaisyComponents do
   end
 
   @doc """
+  Drawer is a grid layout that can show/hide a sidebar on the left or right side of the page.
+  https://daisyui.com/components/drawer/
+  """
+  @drawer_placements %{
+    "end" => "drawer-end"
+  }
+  attr(:placement, :string,
+    values: Map.keys(@drawer_placements),
+    doc: "the placement of the drawer"
+  )
+
+  attr(:open, :boolean, default: false, doc: "whether the drawer is open by default")
+
+  attr(:toggleid, :string,
+    default: "drawer_toggle",
+    doc: "the id of the checkbox input controlling the drawer"
+  )
+
+  attr(:tag, :string, default: "div")
+  attr(:class, :any, default: nil)
+  attr(:overrideclass, :any)
+  attr(:rest, :global)
+
+  slot(:inner_block)
+
+  slot :side do
+    attr(:close_label, :string)
+    attr(:tag, :any)
+    attr(:class, :any)
+  end
+
+  slot :content do
+    attr(:tag, :any)
+    attr(:class, :any)
+  end
+
+  def drawer(assigns) do
+    assigns =
+      assigns
+      |> assign(:baseclass, [
+        "drawer",
+        fetch_value!(@drawer_placements, assigns[:placement]),
+        assigns[:open] && "drawer-open"
+      ])
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
+
+    ~H"""
+    <.basic_tag {@rest}>
+      <input id={@toggleid} type="checkbox" class="drawer-toggle" checked={@open} />
+      <div :if={@content == []} class="drawer-content">{render_slot(@inner_block)}</div>
+      <.basic_tag
+        :for={content <- @content} baseclass="drawer-content" {assigns_to_attributes(content)}
+      >{render_slot(content)}</.basic_tag>
+      <.basic_tag :for={side <- @side} baseclass="drawer-side" {assigns_to_attributes(side, [:close_label])}>
+        <label for={@toggleid} aria-label={side[:close_label]} class="drawer-overlay" />
+        {render_slot(side)}
+      </.basic_tag>
+    </.basic_tag>
+    """
+  end
+
+  @doc """
   Renders a dropdown component.
   https://daisyui.com/components/dropdown/
 

@@ -1110,6 +1110,122 @@ defmodule DaisyComponentsTest do
     end
   end
 
+  describe "drawer" do
+    test "placement" do
+      for placement <- ~w(end) do
+        assigns = %{placement: placement}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.drawer placement={@placement}>
+                   <p>Drawer Content</p>
+                   <:side>Side Content</:side>
+                 </.drawer>
+                 """)
+
+        assert result =~ ~s(<div class="drawer drawer-#{placement}">)
+        assert result =~ "<p>Drawer Content</p>"
+      end
+    end
+
+    test "open" do
+      for open <- [true, false] do
+        assigns = %{open: open}
+
+        assert result =
+                 rendered_to_string(~H"""
+                 <.drawer open={@open}>
+                   <p>Drawer Content</p>
+                   <:side>Side Content</:side>
+                 </.drawer>
+                 """)
+
+        if open do
+          assert result =~ ~s(<div class="drawer drawer-open">)
+
+          assert result =~
+                   ~s(<input id="drawer_toggle" type="checkbox" class="drawer-toggle" checked>)
+        else
+          assert result =~ ~s(<div class="drawer">)
+          assert result =~ ~s(<input id="drawer_toggle" type="checkbox" class="drawer-toggle">)
+        end
+
+        assert result =~ "<p>Drawer Content</p>"
+      end
+    end
+
+    test "toggleid" do
+      assigns = %{toggleid: "my_drawer_toggle"}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.drawer toggleid={@toggleid}>
+                 <p>Drawer Content</p>
+                 <:side>Side Content</:side>
+               </.drawer>
+               """)
+
+      assert result =~ ~s(<input id="my_drawer_toggle" type="checkbox" class="drawer-toggle">)
+      assert result =~ ~s(<label for="my_drawer_toggle" class="drawer-overlay">)
+    end
+
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.drawer>
+                 <p>Drawer Content</p>
+                 <:side>Side Content</:side>
+               </.drawer>
+               """)
+
+      assert result =~ ~s(<div class="drawer">)
+      assert result =~ "<p>Drawer Content</p>"
+
+      assert result =
+               rendered_to_string(~H"""
+               <.drawer tag="section">
+                 <p>Drawer Content</p>
+                 <:side>Side Content</:side>
+               </.drawer>
+               """)
+
+      assert result =~ ~s(<section class="drawer">)
+      assert result =~ "<p>Drawer Content</p>"
+    end
+
+    test "class" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.drawer class="custom-class">
+                 <p>Drawer Content</p>
+                 <:side>Side Content</:side>
+               </.drawer>
+               """)
+
+      assert result =~ ~s(<div class="drawer custom-class">)
+      assert result =~ "<p>Drawer Content</p>"
+    end
+
+    test "overrideclass" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.drawer overrideclass="override-class">
+                 <p>Drawer Content</p>
+                 <:side>Side Content</:side>
+               </.drawer>
+               """)
+
+      assert result =~ ~s(<div class="override-class">)
+      assert result =~ "<p>Drawer Content</p>"
+    end
+  end
+
   describe "dropdown" do
     test "open (non-details tag)" do
       for open <- [true, false] do
