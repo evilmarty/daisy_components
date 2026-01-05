@@ -896,6 +896,39 @@ defmodule DaisyComponents do
   end
 
   @doc """
+  Hero is a component for displaying a large box or image with a title and description.
+  https://daisyui.com/components/hero/
+  """
+  attr(:tag, :string, default: "div")
+  attr(:class, :any, default: nil)
+  attr(:overrideclass, :any)
+  attr(:rest, :global)
+
+  slot(:inner_block)
+
+  slot :content do
+    attr(:class, :any)
+  end
+
+  slot :overlay do
+    attr(:class, :any)
+  end
+
+  def hero(assigns) do
+    assigns = merge_assigns(assigns, :rest, [:tag, :class, :overrideclass])
+
+    ~H"""
+    <.basic_tag baseclass="hero" {@rest}>
+      <.basic_tag :for={overlay <- @overlay} baseclass="hero-overlay" {assigns_to_attributes(overlay)} />
+      <div :if={@inner_block != []} class="hero-content">{render_slot(@inner_block)}</div>
+      <.basic_tag
+        :for={content <- @content} baseclass="hero-content" {assigns_to_attributes(content)}
+      >{render_slot(content)}</.basic_tag>
+    </.basic_tag>
+    """
+  end
+
+  @doc """
   Renders an input field.
   https://daisyui.com/components/input/
 

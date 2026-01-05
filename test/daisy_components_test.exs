@@ -1532,6 +1532,94 @@ defmodule DaisyComponentsTest do
     end
   end
 
+  describe "hero" do
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero>
+                 <p>Hero Content</p>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<div class="hero">)
+      assert result =~ "<p>Hero Content</p>"
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero tag="section">
+                 <p>Hero Content</p>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<section class="hero">)
+      assert result =~ "<p>Hero Content</p>"
+    end
+
+    test "class" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero class="custom-class">
+                 <p>Hero Content</p>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<div class="hero custom-class">)
+      assert result =~ "<p>Hero Content</p>"
+    end
+
+    test "overrideclass" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero overrideclass="override-class">
+                 <p>Hero Content</p>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<div class="override-class">)
+      assert result =~ "<p>Hero Content</p>"
+    end
+
+    test "content slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero>
+                 <:content tag="main" class="custom-content-class">
+                   <p>Hero Content</p>
+                 </:content>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<main class="hero-content custom-content-class">)
+      assert result =~ "<p>Hero Content</p>"
+    end
+
+    test "overlay slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.hero>
+                 <:overlay tag="div" class="custom-overlay-class">
+                   <p>Hero Overlay</p>
+                 </:overlay>
+                 <p>Hero Content</p>
+               </.hero>
+               """)
+
+      assert result =~ ~s(<div class="hero-overlay custom-overlay-class">)
+      refute result =~ "<p>Hero Overlay</p>"
+      assert result =~ "<p>Hero Content</p>"
+    end
+  end
+
   describe "input" do
     test "color" do
       for color <- ~w(primary secondary accent neutral info success warning error) do
