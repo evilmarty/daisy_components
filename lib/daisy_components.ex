@@ -1168,7 +1168,12 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
   attr(:rest, :global)
 
-  slot(:inner_block, required: true)
+  slot(:inner_block)
+
+  slot :box do
+    attr(:tag, :any)
+    attr(:class, :any)
+  end
 
   slot :action do
     attr(:tag, :any)
@@ -1200,12 +1205,12 @@ defmodule DaisyComponents do
 
     ~H"""
     <.basic_tag {@rest}>
-      <div class="modal-box">
-        {render_slot(@inner_block)}
+      <.basic_tag :for={box <- if(@box != [], do: @box, else: [@inner_block])} baseclass="modal-box" {assigns_to_attributes(box)}>
+        {render_slot(box)}
         <.basic_tag
           :for={action <- @action} baseclass="modal-action" {assigns_to_attributes(action)}
         >{render_slot(action)}</.basic_tag>
-      </div>
+      </.basic_tag>
       <.basic_tag :for={backdrop <- @backdrop} baseclass="modal-backdrop" {assigns_to_attributes(backdrop)} />
     </.basic_tag>
     """

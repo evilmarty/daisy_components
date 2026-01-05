@@ -1982,6 +1982,24 @@ defmodule DaisyComponentsTest do
       assert result =~ "<p>Modal Content</p>"
     end
 
+    test "box slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal>
+                 <:box tag="section" class="custom-class">
+                   <p>Modal Content</p>
+                 </:box>
+                 <p>Other Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<section class="modal-box custom-class">)
+      assert result =~ "<p>Modal Content</p>"
+      refute result =~ "<p>Other Content</p>"
+    end
+
     test "action slot" do
       assigns = %{}
 
