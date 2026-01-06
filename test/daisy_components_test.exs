@@ -1660,6 +1660,25 @@ defmodule DaisyComponentsTest do
       end
     end
 
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.input>Input Content</.input>
+               """)
+
+      assert result =~ ~s(<input class="input">)
+      refute result =~ "Input Content"
+
+      assert result =
+               rendered_to_string(~H"""
+               <.input tag="label">Input Content</.input>
+               """)
+
+      assert result =~ ~s(<label class="input">Input Content</label>)
+    end
+
     test "class" do
       assigns = %{}
 
@@ -2321,6 +2340,30 @@ defmodule DaisyComponentsTest do
         assert result =~ ~s(<select class="select select-#{style}">)
         assert result =~ ~s(<option>Option 1</option>)
       end
+    end
+
+    test "tag" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.select>
+                 <option>Option 1</option>
+               </.select>
+               """)
+
+      assert result =~ ~s(<select class="select">)
+      assert result =~ ~s(<option>Option 1</option>)
+
+      assert result =
+               rendered_to_string(~H"""
+               <.select tag="datalist">
+                 <option>Option 1</option>
+               </.select>
+               """)
+
+      assert result =~ ~s(<datalist class="select">)
+      assert result =~ ~s(<option>Option 1</option>)
     end
 
     test "class" do

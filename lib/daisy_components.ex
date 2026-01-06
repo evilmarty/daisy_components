@@ -973,6 +973,7 @@ defmodule DaisyComponents do
     doc: "the style of the input"
   )
 
+  attr(:tag, :string, default: "input")
   attr(:class, :any, default: nil)
   attr(:overrideclass, :any)
 
@@ -982,7 +983,11 @@ defmodule DaisyComponents do
                 minlength multiple name pattern placeholder readonly required rows size step type value)
   )
 
+  slot(:inner_block)
+
   def input(assigns) do
+    assigns = if assigns[:tag] == "input", do: assign(assigns, :inner_block, []), else: assigns
+
     assigns
     |> assign(:baseclass, [
       "input",
@@ -990,7 +995,6 @@ defmodule DaisyComponents do
       fetch_value!(@input_sizes, assigns[:size]),
       fetch_value!(@input_styles, assigns[:style])
     ])
-    |> assign(:tag, "input")
     |> basic_tag()
   end
 
@@ -1450,6 +1454,7 @@ defmodule DaisyComponents do
   attr(:color, :string, values: Map.keys(@select_colors))
   attr(:size, :string, values: Map.keys(@select_sizes))
   attr(:style, :string, values: Map.keys(@select_styles))
+  attr(:tag, :string, default: "select")
   attr(:class, :any, default: nil)
   attr(:overrideclass, :any)
   attr(:rest, :global, include: ~w(name value multiple))
@@ -1470,10 +1475,10 @@ defmodule DaisyComponents do
         fetch_value!(@select_sizes, assigns[:size]),
         fetch_value!(@select_styles, assigns[:style])
       ])
-      |> merge_assigns(:rest, [:baseclass, :class, :overrideclass])
+      |> merge_assigns(:rest, [:tag, :baseclass, :class, :overrideclass])
 
     ~H"""
-    <.basic_tag tag="select" {@rest}>
+    <.basic_tag {@rest}>
       <option
         :for={option <- @option} {assigns_to_attributes(option)}
       >{render_slot(option)}</option>
