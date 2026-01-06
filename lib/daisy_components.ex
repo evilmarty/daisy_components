@@ -425,7 +425,7 @@ defmodule DaisyComponents do
 
   attr(:rest, :global,
     include:
-      ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
+      ~w(accept autocomplete capture checked cols disabled form list max maxlength min
                 minlength multiple pattern placeholder readonly required rows size step value name)
   )
 
@@ -979,7 +979,7 @@ defmodule DaisyComponents do
 
   attr(:rest, :global,
     include:
-      ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
+      ~w(accept autocomplete capture checked cols disabled form list max maxlength min
                 minlength multiple name pattern placeholder readonly required rows size step type value)
   )
 
@@ -1334,7 +1334,7 @@ defmodule DaisyComponents do
 
   attr(:rest, :global,
     include:
-      ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
+      ~w(accept autocomplete capture checked cols disabled form list max maxlength min
                 minlength multiple pattern placeholder readonly required rows size step value name)
   )
 
@@ -1392,7 +1392,7 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
 
   attr(:rest, :global,
-    include: ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
+    include: ~w(accept autocomplete capture checked cols disabled form list max maxlength min
                 minlength multiple pattern placeholder readonly required rows size step value)
   )
 
@@ -1457,7 +1457,10 @@ defmodule DaisyComponents do
   attr(:tag, :string, default: "select")
   attr(:class, :any, default: nil)
   attr(:overrideclass, :any)
-  attr(:rest, :global, include: ~w(name value multiple))
+
+  attr(:rest, :global,
+    include: ~w(autocomplete autofocus disabled form multiple name required size value)
+  )
 
   slot(:inner_block)
 
@@ -1789,7 +1792,7 @@ defmodule DaisyComponents do
 
   attr(:rest, :global,
     include:
-      ~w(cols disabled form id maxlength minlength name placeholder readonly required rows size)
+      ~w(autocapitalize autocomplete autocorrect autofocus cols dirname disabled form maxlength minlength name placeholder readonly required rows spellcheck wrap)
   )
 
   slot(:inner_block)
@@ -1902,7 +1905,7 @@ defmodule DaisyComponents do
 
   attr(:rest, :global,
     include:
-      ~w(accept autocomplete capture checked cols disabled form id list max maxlength min
+      ~w(accept autocomplete capture checked cols disabled form list max maxlength min
                 minlength multiple pattern placeholder readonly required rows size step value name)
   )
 
