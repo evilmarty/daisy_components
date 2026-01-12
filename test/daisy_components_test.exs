@@ -2660,8 +2660,8 @@ defmodule DaisyComponentsTest do
                  """)
 
         assert result =~ ~s(<div role="tablist" class="tabs tabs-#{size}">)
-        assert result =~ ~s(<a href="#" class="tab tab-active">Tab 1</a>)
-        assert result =~ ~s(<a href="#" class="tab">Tab 2</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab tab-active">Tab 1</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab">Tab 2</a>)
       end
     end
 
@@ -2678,8 +2678,8 @@ defmodule DaisyComponentsTest do
                  """)
 
         assert result =~ ~s(<div role="tablist" class="tabs tabs-#{placement}">)
-        assert result =~ ~s(<a href="#" class="tab tab-active">Tab 1</a>)
-        assert result =~ ~s(<a href="#" class="tab">Tab 2</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab tab-active">Tab 1</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab">Tab 2</a>)
       end
     end
 
@@ -2696,8 +2696,8 @@ defmodule DaisyComponentsTest do
                  """)
 
         assert result =~ ~s(<div role="tablist" class="tabs tabs-#{style}">)
-        assert result =~ ~s(<a href="#" class="tab tab-active">Tab 1</a>)
-        assert result =~ ~s(<a href="#" class="tab">Tab 2</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab tab-active">Tab 1</a>)
+        assert result =~ ~s(<a href="#" role="tab" class="tab">Tab 2</a>)
       end
     end
 
@@ -2764,7 +2764,8 @@ defmodule DaisyComponentsTest do
                </.tabs>
                """)
 
-      assert result =~ ~s(<a href="/tab1" class="tab tab-active custom-tab-class">Tab 1</a>)
+      assert result =~
+               ~s(<a href="/tab1" role="tab" class="tab tab-active custom-tab-class">Tab 1</a>)
 
       assert result =
                rendered_to_string(~H"""
@@ -2774,7 +2775,7 @@ defmodule DaisyComponentsTest do
                </.tabs>
                """)
 
-      assert result =~ ~s(<span class="tab tab-active custom-tab-class">Tab 1</span>)
+      assert result =~ ~s(<span role="tab" class="tab tab-active custom-tab-class">Tab 1</span>)
     end
   end
 

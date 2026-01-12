@@ -1731,6 +1731,7 @@ defmodule DaisyComponents do
     <.basic_tag role="tablist" {@rest}>
       <.tab_item
         :for={tab <- @tab} {assigns_to_attributes(tab)}
+        role="tab"
       >{render_slot(tab)}</.tab_item>
     </.basic_tag>
     """
