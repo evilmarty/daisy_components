@@ -784,7 +784,11 @@ defmodule DaisyComponents do
 
   slot :toggle, required: true do
     attr(:class, :any)
+    # Button attributes
+    attr(:color, :string)
+    attr(:shape, :string)
     attr(:size, :string)
+    attr(:style, :string)
   end
 
   def dropdown(assigns) do
