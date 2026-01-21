@@ -1016,7 +1016,7 @@ defmodule DaisyComponents do
   attr(:tag, :string, default: "label")
   attr(:class, :any, default: nil)
   attr(:overrideclass, :any)
-  attr(:rest, :global)
+  attr(:rest, :global, include: ~w(for))
   slot(:inner_block, required: true)
 
   def label(assigns) do
