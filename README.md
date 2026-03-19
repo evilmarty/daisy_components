@@ -64,7 +64,22 @@ Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_do
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
 be found at <https://hexdocs.pm/daisy_components>.
 
+## Storybook
+
+Storybook is hosted in a standalone Phoenix app under `storybook_app/` to avoid
+impacting the component library build.
+
+From the repo root:
+
+```sh
+cd storybook_app
+mix deps.get
+mix phx.server
+```
+
+Then open <http://localhost:4000/>. Story files live in `/storybook` at
+the repo root and are loaded by `storybook_app`.
+
 ## TODO
 
 [ ] Add all components from Daisy UI.
-[ ] Setup Storybook for LiveView.
