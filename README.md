@@ -74,11 +74,13 @@ From the repo root:
 ```sh
 cd storybook_app
 mix deps.get
+mix assets.build
 mix phx.server
 ```
 
 Then open <http://localhost:4000/>. Story files live in `/storybook` at
-the repo root and are loaded by `storybook_app`.
+the repo root and are loaded by `storybook_app`. Add new component stories
+under `storybook/*.story.exs` and update indexes as needed.
 
 ## TODO
 

@@ -1,18 +1,27 @@
-# StorybookApp
+# Storybook App
 
-To start your Phoenix server:
+This Phoenix app hosts the component Storybook for the `daisy_components` library.
+Stories live in the repo root under `/storybook`, and this app loads them without
+affecting the library build.
 
-* Run `mix setup` to install and setup dependencies
-* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## Usage
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+From the repo root:
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+```sh
+cd storybook_app
+mix deps.get
+mix assets.build
+mix phx.server
+```
 
-## Learn more
+Then open <http://localhost:4000/> to view Storybook.
 
-* Official website: https://www.phoenixframework.org/
-* Guides: https://hexdocs.pm/phoenix/overview.html
-* Docs: https://hexdocs.pm/phoenix
-* Forum: https://elixirforum.com/c/phoenix-forum
-* Source: https://github.com/phoenixframework/phoenix
+## Adding stories
+
+Create or update story files under `../storybook`, for example:
+
+```
+../storybook/button.story.exs
+../storybook/_components.index.exs
+```
