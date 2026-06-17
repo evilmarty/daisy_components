@@ -331,17 +331,17 @@ defmodule DaisyComponents do
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
-  slot :title do
+  slot :title, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :actions do
+  slot :actions, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :image do
+  slot :image, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
     attr(:placement, :string)
@@ -477,12 +477,12 @@ defmodule DaisyComponents do
   attr(:rest, :global)
   slot(:inner_block)
 
-  slot :title, required: true do
+  slot :title, required: true, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :content do
+  slot :content, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
@@ -629,7 +629,7 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
   attr(:rest, :global)
 
-  slot :button, required: true do
+  slot :button, required: true, validate_attrs: false do
     attr(:tag, :string)
     attr(:active, :boolean)
     attr(:label, :string, required: true)
@@ -701,13 +701,13 @@ defmodule DaisyComponents do
 
   slot(:inner_block)
 
-  slot :side do
+  slot :side, validate_attrs: false do
     attr(:close_label, :string)
     attr(:tag, :any)
     attr(:class, :any)
   end
 
-  slot :content do
+  slot :content, validate_attrs: false do
     attr(:tag, :any)
     attr(:class, :any)
   end
@@ -782,7 +782,7 @@ defmodule DaisyComponents do
   attr(:rest, :global)
   slot(:inner_block, required: true)
 
-  slot :toggle, required: true do
+  slot :toggle, required: true, validate_attrs: false do
     attr(:class, :any)
     # Button attributes
     attr(:color, :string)
@@ -845,12 +845,12 @@ defmodule DaisyComponents do
   attr(:rest, :global, doc: "the arbitrary HTML attributes to add to the fieldset")
   slot(:inner_block, required: true)
 
-  slot :legend do
+  slot :legend, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :label do
+  slot :label, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
@@ -910,11 +910,11 @@ defmodule DaisyComponents do
 
   slot(:inner_block)
 
-  slot :content do
+  slot :content, validate_attrs: false do
     attr(:class, :any)
   end
 
-  slot :overlay do
+  slot :overlay, validate_attrs: false do
     attr(:class, :any)
   end
 
@@ -1115,7 +1115,7 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
   attr(:rest, :global)
 
-  slot :item, required: true do
+  slot :item, required: true, validate_attrs: false do
     attr(:title, :string)
     attr(:disabled, :boolean)
     attr(:class, :any)
@@ -1203,17 +1203,17 @@ defmodule DaisyComponents do
 
   slot(:inner_block)
 
-  slot :box do
+  slot :box, validate_attrs: false do
     attr(:tag, :any)
     attr(:class, :any)
   end
 
-  slot :action do
+  slot :action, validate_attrs: false do
     attr(:tag, :any)
     attr(:class, :any)
   end
 
-  slot :backdrop do
+  slot :backdrop, validate_attrs: false do
     attr(:tag, :any)
     attr(:class, :any)
   end
@@ -1468,7 +1468,7 @@ defmodule DaisyComponents do
 
   slot(:inner_block)
 
-  slot :option do
+  slot :option, validate_attrs: false do
     attr(:value, :any)
     attr(:selected, :boolean)
   end
@@ -1523,7 +1523,7 @@ defmodule DaisyComponents do
 
   slot(:inner_block)
 
-  slot :stat do
+  slot :stat, validate_attrs: false do
     attr(:title, :string, required: true)
     attr(:value, :string)
     attr(:desc, :string)
@@ -1558,22 +1558,22 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
   attr(:rest, :global)
 
-  slot :title, required: true do
+  slot :title, required: true, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :value do
+  slot :value, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :figure do
+  slot :figure, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
 
-  slot :desc do
+  slot :desc, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
   end
@@ -1628,8 +1628,8 @@ defmodule DaisyComponents do
   attr(:class, :any, default: nil)
   attr(:overrideclass, :any)
   attr(:rest, :global)
-  slot(:on, required: true)
-  slot(:off, required: true)
+  slot(:on, required: true, validate_attrs: false)
+  slot(:off, required: true, validate_attrs: false)
 
   def swap(assigns) do
     assigns =
@@ -1707,7 +1707,7 @@ defmodule DaisyComponents do
   attr(:overrideclass, :any)
   attr(:rest, :global)
 
-  slot :tab, required: true do
+  slot :tab, required: true, validate_attrs: false do
     attr(:tag, :string)
     attr(:class, :any)
     attr(:active, :boolean)
