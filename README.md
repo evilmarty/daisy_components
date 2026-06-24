@@ -2,6 +2,47 @@
 
 [Daisy UI](https://daisyui.com) components built with Phoenix LiveView.
 
+## Supported Components
+
+The following components from DaisyUI are supported:
+
+- `alert` (`<.alert>`)
+- `avatar` (`<.avatar>`)
+- `avatar_group` (`<.avatar_group>`)
+- `badge` (`<.badge>`)
+- `button` (`<.button>`)
+- `card` (`<.card>`)
+- `checkbox` (`<.checkbox>`)
+- `collapse` (`<.collapse>`)
+- `countdown` (`<.countdown>`)
+- `divider` (`<.divider>`)
+- `dock` (`<.dock>`)
+- `dock_button` (`<.dock_button>`)
+- `drawer` (`<.drawer>`)
+- `dropdown` (`<.dropdown>`)
+- `fieldset` (`<.fieldset>`)
+- `hero` (`<.hero>`)
+- `hover_3d` (`<.hover_3d>`)
+- `input` (`<.input>`)
+- `label` (`<.label>`)
+- `loading` (`<.loading>`)
+- `menu` (`<.menu>`)
+- `menu_item` (`<.menu_item>`)
+- `modal` (`<.modal>`)
+- `progress` (`<.progress>`)
+- `radio` (`<.radio>`)
+- `range` (`<.range>`)
+- `select` (`<.select>`)
+- `stat` (`<.stat>`)
+- `stats` (`<.stats>`)
+- `swap` (`<.swap>`)
+- `tab_item` (`<.tab_item>`)
+- `tabs` (`<.tabs>`)
+- `textarea` (`<.textarea>`)
+- `toast` (`<.toast>`)
+- `toggle` (`<.toggle>`)
+- `tooltip` (`<.tooltip>`)
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
