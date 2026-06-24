@@ -1208,6 +1208,10 @@ defmodule DaisyComponents do
     attr(:class, :any)
   end
 
+  slot :form, validate_attrs: false do
+    attr(:class, :any)
+  end
+
   slot :action, validate_attrs: false do
     attr(:tag, :any)
     attr(:class, :any)
@@ -1238,13 +1242,30 @@ defmodule DaisyComponents do
 
     ~H"""
     <.basic_tag {@rest}>
-      <.basic_tag :for={box <- if(@box != [], do: @box, else: [@inner_block])} baseclass="modal-box" {assigns_to_attributes(box)}>
-        {render_slot(box)}
+      <.modal_box form={@form} box={if(@box != [], do: @box, else: [@inner_block])} baseclass="modal-box">
         <.basic_tag
           :for={action <- @action} baseclass="modal-action" {assigns_to_attributes(action)}
         >{render_slot(action)}</.basic_tag>
-      </.basic_tag>
+      </.modal_box>
       <.basic_tag :for={backdrop <- @backdrop} baseclass="modal-backdrop" {assigns_to_attributes(backdrop)} />
+    </.basic_tag>
+    """
+  end
+
+  defp modal_box(%{form: form} = assigns) when form != [] do
+    ~H"""
+    <.form :for={form <- @form} {Map.update(form, :class, @baseclass, fn class -> List.wrap(@baseclass) ++ List.wrap(class) end) |> assigns_to_attributes()}>
+      {render_slot(form)}
+      {render_slot(@inner_block)}
+    </.form>
+    """
+  end
+
+  defp modal_box(assigns) do
+    ~H"""
+    <.basic_tag :for={box <- @box} baseclass={@baseclass} {assigns_to_attributes(box)}>
+      {render_slot(box)}
+      {render_slot(@inner_block)}
     </.basic_tag>
     """
   end
