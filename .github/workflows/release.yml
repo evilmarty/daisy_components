@@ -10,6 +10,9 @@ on:
       - completed
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
@@ -24,6 +27,9 @@ jobs:
               otp-version: 28
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name || github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
@@ -41,3 +47,21 @@ jobs:
         run: mix hex.publish --yes
         env:
           HEX_API_KEY: ${{secrets.HEX_API_KEY}}
+      - name: Mark release as latest
+        if: ${{ github.event_name == 'release' || github.event_name == 'workflow_run' }}
+        run: |
+          if [ "${{ github.event_name }}" = "release" ]; then
+            tag="${{ github.event.release.tag_name }}"
+          elif [ "${{ github.event_name }}" = "workflow_run" ]; then
+            git fetch --tags
+            tag=$(git describe --tags --exact-match HEAD 2>/dev/null || gh api repos/${{ github.repository }}/releases --jq '.[] | select(.target_commitish == "${{ github.event.workflow_run.head_sha }}") | .tag_name' | head -n 1)
+          fi
+
+          if [ -n "$tag" ]; then
+            echo "Marking release $tag as stable/latest..."
+            gh release edit "$tag" --prerelease=false --latest
+          else
+            echo "Could not resolve release tag. Skipping."
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,21 +1,34 @@
 name: Create Release
 
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
     branches:
       - main
-    paths:
-      - mix.exs
+    types:
+      - completed
 
 permissions:
   contents: write
 
 jobs:
   check:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
+      with:
+        ref: ${{ github.event.workflow_run.head_sha }}
+        fetch-depth: 2
+    - id: check_file
+      run: |
+        if git diff-tree --no-commit-id --name-only -r HEAD | grep -q "^mix.exs$"; then
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "changed=false" >> "$GITHUB_OUTPUT"
+        fi
     - id: version
+      if: steps.check_file.outputs.changed == 'true'
       run: |
         version=$(sed -n '/version:/s/.*:\s*//p' mix.exs | sed -E 's/(^[^"]*"|"[^"]*$)//g')
         tag="v${version}"
@@ -24,10 +37,10 @@ jobs:
           echo "new_tag=${tag}" >> "$GITHUB_OUTPUT"
         )
     - name: Create release
-      if: steps.version.outputs.new_version
+      if: steps.check_file.outputs.changed == 'true' && steps.version.outputs.new_version
       uses: softprops/action-gh-release@v3
       with:
         tag_name: "${{steps.version.outputs.new_tag}}"
-        target_commitish: ${{github.sha}}
+        target_commitish: ${{github.event.workflow_run.head_sha}}
         generate_release_notes: true
         prerelease: true
