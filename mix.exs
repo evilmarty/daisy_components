@@ -8,7 +8,7 @@ defmodule DaisyComponents.MixProject do
       app: :daisy_components,
       description: "Daisy UI components built with Phoenix LiveView.",
       source_url: @source_url,
-      version: "0.1.1",
+      version: "0.1.2",
       elixir: "~> 1.19",
       start_permanent: Mix.env() == :prod,
       package: package(),

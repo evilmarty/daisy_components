@@ -51,7 +51,7 @@ by adding `daisy_components` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:daisy_components, "~> 0.1.1"}
+    {:daisy_components, "~> 0.1.2"}
   ]
 end
 ```
