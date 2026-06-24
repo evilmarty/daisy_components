@@ -2084,6 +2084,29 @@ defmodule DaisyComponentsTest do
       refute result =~ "<p>Other Content</p>"
     end
 
+    test "form slot" do
+      assigns = %{}
+
+      assert result =
+               rendered_to_string(~H"""
+               <.modal>
+                 <:form action="/foobar" class="custom-class">
+                   <input name="input">
+                   <button>Submit</button>
+                 </:form>
+                 <:box>
+                   <p>Box Content</p>
+                 </:box>
+                 <p>Other Content</p>
+               </.modal>
+               """)
+
+      assert result =~ ~s(<form action="/foobar" method="post" class="modal-box custom-class">)
+      assert result =~ ~s(<input name="input">)
+      refute result =~ "<p>Box Content</p>"
+      refute result =~ "<p>Other Content</p>"
+    end
+
     test "action slot" do
       assigns = %{}
 
